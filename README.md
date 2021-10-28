@@ -20,7 +20,7 @@
   
 <hr/>
 
-## __PHP 파일 검증 하지않기 (v1.0.3 이후 버전)__
+## __PHP 파일 검증 하지않기 (v1.0.3~)__
 * ### 현재 스케쥴링 등록시에는 PHP 파일만 등록할 수 있게 되어있습니다. <br>만약 PHP 이외 파일도 스케쥴링이 가능하도록 하기 원하시면 다음 절차를 따르세요.
 
   1. 기존 adm/schedule/schedule_form_update.php 을 다른 이름으로 바꿉니다.<br> ex) schedule_form_update.php.bak
