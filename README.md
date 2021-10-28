@@ -19,3 +19,16 @@
 * ### __이로 인해, 사용자 또는 봇의 페이지 접근 주기가 스케쥴링에 설정된 주기보다 길 경우 정상적인 주기대로 실행되지 않습니다.__
   
 <hr/>
+
+## __PHP 파일 검증 하지않기 (v1.0.3 이후 버전)__
+* ### 현재 스케쥴링 등록시에는 PHP 파일만 등록할 수 있게 되어있습니다. <br>만약 PHP 이외 파일도 스케쥴링이 가능하도록 하기 원하시면 다음 절차를 따르세요.
+
+  1. 기존 adm/schedule/schedule_form_update.php 을 다른 이름으로 바꿉니다.<br> ex) schedule_form_update.php.bak
+   
+  2. adm/schedule/schedule_form_update.php.nonverify 파일을 <br> adm/schedule/schedule_form_update.php 로 변경합니다.
+   
+  3. 기존 extend/auto.schedule.php 을 다른 이름으로 바꿉니다.<br> ex) auto.schedule.php.bak
+  
+  4. extend/auto.schedule.php.nonverify 파일을 <br> extend/auto.schedule.php 로 변경합니다. 
+
+* ### 만약 PHP 검증을 다시 하고싶으시면 위 절차와 같이 파일명을 다시 변경해 주시면됩니다. (다시 PHP 검증을 사용하시면 PHP 파일 이외에는  스케쥴을 실행하지 못합니다.)
