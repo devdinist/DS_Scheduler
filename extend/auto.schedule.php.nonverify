@@ -18,9 +18,6 @@
         $schedule_file = array();
 
         while($r = sql_fetch_array($schedule_list)):
-            $php_preg_result = false;
-
-            if (preg_match("/(\.php)$/i", $r['schedule_file'])) $php_preg_result = true;
 
             $schedule_file[$r['idx']] = array(
                 "file" => $r['schedule_file'],
@@ -29,7 +26,6 @@
                 "loop_type" => $r['loop_type'],
                 "loop_number" => $r['loop_number'],
                 "allow_robot" => $r['allow_robot'],
-                "is_php" => $php_preg_result
             );
         endwhile;
 
@@ -86,17 +82,13 @@
                 }
 
                 if($b-$a > $info['loop_number'] * $time_set || $info['exec_time'] == 0){
-                    if(file_exists(G5_PATH.$info['file']) && $info['is_php']){
+                    if(file_exists(G5_PATH.$info['file'])){
                         include_once(G5_PATH.$info['file']);
                         $log_sql_value['log'] = "'성공'";
                         $log_sql_value['last_running_time'] = "'".G5_TIME_YMDHIS."'";
                     }
                     else if(!file_exists(G5_PATH.$info['file'])){
                         $log_sql_value['log'] = "'실패 (파일이 존재하지 않습니다.)'";
-                        $log_sql_value['last_running_time'] = "'".G5_TIME_YMDHIS."'";
-                    }
-                    else if(!$info['is_php']){
-                        $log_sql_value['log'] = "'실패 (이 파일은 php 파일이 아닙니다.)'";
                         $log_sql_value['last_running_time'] = "'".G5_TIME_YMDHIS."'";
                     }
                     $execute_time = $info['exec_time']+1;
