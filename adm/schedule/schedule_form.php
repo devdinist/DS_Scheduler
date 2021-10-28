@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 그누보드 스케쥴링 플러그인 v1.0
+ * 그누보드 스케쥴링 플러그인 v1.0.1
  * Date : 2021-10-28
  * Author : dinist (https://github.com/devdinist)
  */
@@ -137,7 +137,10 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 
 <div class="btn_fixed_top">
     <a href="./schedule.php?<?php echo $qstr ?>" class="btn btn_02">목록</a>
-    <input type="submit" value="확인" class="btn_submit btn" accesskey='s'>
+    <input type="submit" name="submit_btn" value="확인" class="btn_submit btn" accesskey='s' onclick="document.pressed='확인'">
+    <?php if($w == "u"): ?>
+    <input type="submit" name="submit_btn" value="삭제" class="btn_submit btn" accesskey='s' onclick="document.pressed='삭제'">
+    <?php endif; ?>
 </div>
 </form>
 
@@ -184,9 +187,17 @@ function fschedule_submit(f)
         return false;
     }
 
-    if (!f.loop_value.value) {
+    if (!f.loop_number.value) {
         alert('실행주기 값을 입력하세요.');
         return false;
+    }
+
+    if (document.pressed == "삭제") {
+        if(confirm("스케쥴을 삭제하시겠습니까? 진행 후에는 되돌릴 수 없습니다.")){
+            f.w.value = "d";
+        }else{
+            return false;
+        }
     }
 
     return true;

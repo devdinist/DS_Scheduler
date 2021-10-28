@@ -1,11 +1,4 @@
 <?php
-
-/**
- * 그누보드 스케쥴링 플러그인 v1.0
- * Date : 2021-10-28
- * Author : dinist (https://github.com/devdinist)
- */
-
 $sub_menu = "600100";
 include_once("./_common.php");
 
@@ -77,14 +70,40 @@ if( $w == '' || $w == 'u' ){
 }
 
 if($w == "u"):
-    $sql = " update g5_auto_schedule
+
+    $sql_u = " update g5_auto_schedule
                     set {$sql_common}
                     where idx = '{$idx}' ";
-    sql_query($sql);
+
+    $res_u = sql_query($sql_u);
+
+    if($res_u):
+        alert("스케쥴 수정이 완료되었습니다.",G5_ADMIN_URL."/schedule/schedule.php");
+    endif;
+
+elseif($w == "d"):
+
+    $sql = " delete from g5_auto_schedule where idx = '{$idx}' ";
+    $sql2 = " delete from g5_auto_schedule_log where schedule_idx = '{$idx}' ";
+
+    $res = sql_query($sql);
+    $res2 = sql_query($sql2);
+
+    if($res && $res2): alert("스케쥴 삭제가 완료되었습니다.",G5_ADMIN_URL."/schedule/schedule.php");
+    else: alert("스케쥴 삭제중 문제가 발생하였습니다.",G5_ADMIN_URL."/schedule/schedule.php");
+    endif;
+
 else:
+
     $sql = " insert into g5_auto_schedule (schedule_name, schedule_file, loop_type, loop_number, status, allow_robot) values ({$sql_insert_common}) ";
     sql_query($sql);
+
     $idx = sql_insert_id();
+    
+    if($idx): alert("스케쥴 등록이 완료되었습니다.",G5_ADMIN_URL."/schedule/schedule.php");
+    else: alert("스케쥴 등록중 문제가 발생하였습니다.",G5_ADMIN_URL."/schedule/schedule.php");
+    endif;
+
 endif;
 
 goto_url('./schedule_form.php?'.$qstr.'&amp;w=u&amp;idx='.$idx, false);

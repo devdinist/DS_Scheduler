@@ -1,11 +1,4 @@
 <?php
-
-    /**
-     * 그누보드 스케쥴링 플러그인 v1.0
-     * Date : 2021-10-28
-     * Author : dinist (https://github.com/devdinist)
-     */
-
     include_once("./_common.php");
 
     $chk = isset($_POST['chk']) && is_array($_POST['chk']) ? array_map(function($v){

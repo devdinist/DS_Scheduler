@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 그누보드 스케쥴링 플러그인 v1.0
+ * 그누보드 스케쥴링 플러그인 v1.0.1
  * Date : 2021-10-28
  * Author : dinist (https://github.com/devdinist)
  */
@@ -42,8 +42,14 @@ if(isset($sfl) && $sfl && !in_array($sfl, array('schedule_idx','log_time')) ) {
     div.del_btn{margin: 10px auto; text-align: center;}
 </style>
 
+<div class="local_desc02 local_desc">
+        <p>
+            · 스케쥴을 삭제하면 해당 스케쥴의 로그도 같이 삭제됩니다.
+        </p>
+    </div>
+
 <div class="local_sch local_sch01">
-    <form name="fvisit" method="get" onsubmit="return fvisit_submit(this);">
+    <form name="schedule_log" method="get" onsubmit="return schedule_log_submit(this);">
     <?php echo $listall?>
     <label for="sch_sort" class="sound_only">검색분류</label>
     <select name="sfl" id="sch_sort" class="search_sort">
@@ -117,9 +123,11 @@ if(isset($sfl) && $sfl && !in_array($sfl, array('schedule_idx','log_time')) ) {
     <?php if ($i == 0) echo '<tr><td colspan="'.$colspan.'" class="empty_table">자료가 없습니다.</td></tr>'; ?>
     </tbody>
     </table>
-    <div class="del_btn">
-        <button type="submit" class="log_delete btn_01">삭제</button>
-    </div>
+    <?php if($i > 0): ?>
+        <div class="del_btn">
+            <button type="submit" class="log_delete btn_01">삭제</button>
+        </div>
+    <?php endif; ?>
 </div>
 </form>
 
@@ -146,7 +154,7 @@ $(function(){
     }
 });
 
-function fvisit_submit(f)
+function schedule_log_submit(f)
 {
     return true;
 }
