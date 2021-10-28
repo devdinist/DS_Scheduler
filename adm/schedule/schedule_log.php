@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 그누보드 스케쥴링 플러그인 v1.0.1
+ * 그누보드 스케쥴링 플러그인 v1.0.2
  * Date : 2021-10-28
  * Author : dinist (https://github.com/devdinist)
  */
@@ -157,6 +157,29 @@ $(function(){
 function schedule_log_submit(f)
 {
     return true;
+}
+
+function schedule_log_delete(f){
+    var chk = document.getElementsByName("chk[]");
+    var checked = false;
+    for(var i=0; i<chk.length; i++){
+        if(chk[i].checked){
+            checked = true;
+            break;
+        }
+    }
+
+    if(!checked){
+        alert("선택된 항목이 없습니다.");
+        return false;
+    }
+
+    if(confirm("선택하신 항목을 삭제하시겠습니까? 삭제 후에는 되돌릴 수 없습니다.")){
+        return true;
+    }else{
+        return false;
+    }
+    
 }
 </script>
 

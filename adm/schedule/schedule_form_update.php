@@ -19,9 +19,6 @@ $allow_robot = isset($_POST['allow_robot']) && is_numeric($_POST['allow_robot'])
 
 if($w == "u" && strlen($idx) == 0) alert("idx 값이 없습니다.");
 
-// 스케쥴 파일 확장자 체크
-if(!preg_match("/\.(php)$/i",$schedule_file)) alert("php 파일만 지정할 수 있습니다.");
-
 $sql_common = "  schedule_name = '{$schedule_name}',
                  schedule_file = '{$schedule_file}',
                  loop_type = '{$loop_type}',

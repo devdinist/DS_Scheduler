@@ -1,10 +1,9 @@
 <?php
 
     /**
-     * 그누보드 스케쥴링 플러그인 v1.0.1
+     * 그누보드 스케쥴링 플러그인 v1.0.2
      * Date : 2021-10-28
      * Author : dinist (https://github.com/devdinist)
-     * 본 플러그인은 순정 그누보드 5.4.18 버전을 기반으로 제작되었습니다.
      */
 
     if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
@@ -91,12 +90,14 @@
                         include_once(G5_PATH.$info['file']);
                         $log_sql_value['log'] = "'성공'";
                         $log_sql_value['last_running_time'] = "'".G5_TIME_YMDHIS."'";
-                    }else if(!file_exists(G5_PATH.$info['file'])){
+                    }
+                    else if(!file_exists(G5_PATH.$info['file'])){
                         $log_sql_value['log'] = "'실패 (파일이 존재하지 않습니다.)'";
-                        $log_sql_value['last_running_time'] = $info['last_run_time'];
-                    }else if($info['is_php']){
+                        $log_sql_value['last_running_time'] = "'".G5_TIME_YMDHIS."'";
+                    }
+                    else if(!$info['is_php']){
                         $log_sql_value['log'] = "'실패 (이 파일은 php 파일이 아닙니다.)'";
-                        $log_sql_value['last_running_time'] = $info['last_run_time'];
+                        $log_sql_value['last_running_time'] = "'".G5_TIME_YMDHIS."'";
                     }
                     $execute_time = $info['exec_time']+1;
 

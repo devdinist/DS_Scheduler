@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 그누보드 스케쥴링 플러그인 v1.0.1
+ * 그누보드 스케쥴링 플러그인 v1.0.2
  * Date : 2021-10-28
  * Author : dinist (https://github.com/devdinist)
  */
@@ -15,19 +15,13 @@ $idx = isset($_REQUEST['idx']) ? intval(addslashes(clean_xss_tags(clean_xss_attr
 
 $sound_only = '';
 $required_mb_id_class = '';
-$required_mb_password = '';
 
 if ($w == '')
 {
     $required_schedule_name = 'required';
     $required_schedule_name_class = 'required alnum_';
-    $required_mb_password = 'required';
     $sound_only = '<strong class="sound_only">필수</strong>';
 
-    $mb['mb_mailling'] = 1;
-    $mb['mb_open'] = 1;
-    $mb['mb_level'] = $config['cf_register_level'];
-    $html_title = '추가';
 }
 else if ($w == 'u')
 {
@@ -42,19 +36,11 @@ else
 if($w == 'u' && !$idx) alert("idx 값이 설정되지 않았습니다.");
 
 
-// 지번주소 필드추가
-if(!isset($mb['mb_addr_jibeon'])) {
-    sql_query(" ALTER TABLE {$g5['member_table']} ADD `mb_addr_jibeon` varchar(255) NOT NULL DEFAULT '' AFTER `mb_addr2` ", false);
-}
-
-
 $add_ment = $w == "u" ? "수정" : "등록";
 $g5['title'] = '스케쥴'.$add_ment;
 
 include_once(G5_ADMIN_PATH.'/admin.head.php');
 
-// add_javascript('js 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
-add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 ?>
 <style>
     input[name='loop_number']{width: 35px;}
@@ -90,13 +76,14 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
     <tr>
         <th scope="row"><label for="schedule_name">스케쥴명<?php echo $sound_only ?></label></th>
         <td>
-            <input type="text" name="schedule_name" value="<?php echo $schedule['schedule_name'] ?>" id="schedule_name" required class="frm_input required" size="50"  maxlength="20">
+            <input type="text" name="schedule_name" value="<?php echo $schedule['schedule_name'] ?>" id="schedule_name" required class="frm_input required" size="70">
         </td>
     </tr>
     <tr>
         <th scope="row"><label for="schedule_file">스케쥴 파일<?php echo $sound_only ?></label></th>
         <td>
-            <input type="text" name="schedule_file" value="<?php echo $schedule['schedule_file'] ?>" id="schedule_file" required class="frm_input required" size="50"  maxlength="20">
+            <?php echo help("최상위 디렉터리를 기준으로 절대경로로 입력해주세요"); ?>
+            <input type="text" name="schedule_file" value="<?php echo $schedule['schedule_file'] ?>" id="schedule_file" required class="frm_input required" size="70">
         </td>
     </tr>
     <tr>
