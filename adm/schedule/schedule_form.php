@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 그누보드 스케쥴링 플러그인 v1.0.5
+ * 그누보드 스케쥴링 플러그인 v1.0.6
  * Date : 2021-10-28
  * Author : dinist (https://github.com/devdinist)
  */
@@ -9,7 +9,6 @@
 $sub_menu = "600100";
 include_once('./_common.php');
 include_once('./schedule_init.php');
-auth_check_menu($auth, $sub_menu, 'w');
 
 $idx = isset($_REQUEST['idx']) ? intval(addslashes(clean_xss_tags(clean_xss_attributes($_REQUEST['idx']),1,1))) : 0;
 

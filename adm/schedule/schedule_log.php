@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 그누보드 스케쥴링 플러그인 v1.0.5
+ * 그누보드 스케쥴링 플러그인 v1.0.6
  * Date : 2021-10-28
  * Author : dinist (https://github.com/devdinist)
  */
@@ -9,8 +9,6 @@
 $sub_menu = '600200';
 include_once('./_common.php');
 include_once('./schedule_init.php');
-
-auth_check_menu($auth, $sub_menu, 'r');
 
 $g5['title'] = '스케쥴로그';
 include_once(G5_ADMIN_PATH.'/admin.head.php');
@@ -62,7 +60,7 @@ if(isset($sfl) && $sfl && !in_array($sfl, array('schedule_idx','log_time')) ) {
     </form>
 </div>
 
-<form name="schedule_log" method="post" action="./schedule_log_delete.php">
+<form name="schedule_log" method="post" action="./schedule_log_delete.php" onsubmit="return schedule_log_delete(this);">
 <div class="tbl_wrap tbl_head01">
     <table>
     <thead>

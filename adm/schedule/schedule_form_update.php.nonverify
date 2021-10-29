@@ -5,8 +5,6 @@ include_once("./_common.php");
 if ($w == 'u')
     check_demo();
 
-auth_check_menu($auth, $sub_menu, 'w');
-
 check_admin_token();
 
 $idx = isset($_POST['idx']) && is_numeric($_POST['idx']) ? intval($_POST['idx']) : '';

@@ -1,7 +1,7 @@
 <?php
 
     /**
-     * 그누보드 스케쥴링 플러그인 v1.0.5
+     * 그누보드 스케쥴링 플러그인 v1.0.6
      * Date : 2021-10-28
      * Author : dinist (https://github.com/devdinist)
      */
