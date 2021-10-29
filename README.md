@@ -9,7 +9,7 @@
 - ### 1. adm/schedule 폴더를 adm 폴더 내에 복사합니다.
 - ### 2. adm/admin.menu600.php 파일을 adm 폴더 내에 복사합니다.<br>(만약 600번대 메뉴를 사용중이라면 다른 번호대로 변경해주셔야 합니다.)
 - ### 3. extend/auto.schedule.php 파일을 extend 폴더 내에 복사합니다.
-- ### 4. plugin/CrawlerDetect 폴더를 plugin 폴더 내에 복사합니다.<br> (CrawlerDetect는 검색 봇, 크롤러 감지를 위해 사용되었습니다.)
+- ### 4. plugin/Crawler_Detect 폴더를 plugin 폴더 내에 복사합니다.<br> (Crawler_Detect는 검색 봇, 크롤러 감지를 위해 사용되었습니다.)
 - ### 5. 복사가 완료되면 관리자 페이지에서 스케쥴관리 또는 스케쥴로그 메뉴에<br> 접근하시면 자동으로 DB 생성작업이 완료됩니다.
 
 <hr/>
