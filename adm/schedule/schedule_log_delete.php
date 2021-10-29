@@ -1,6 +1,8 @@
 <?php
     include_once("./_common.php");
 
+    check_admin_token();
+
     $chk = isset($_POST['chk']) && is_array($_POST['chk']) ? array_map(function($v){
         return intval($v) >= 0 ? intval($v) : 0;
     },$_POST['chk']) : array();
