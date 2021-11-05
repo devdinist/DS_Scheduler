@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 그누보드 스케쥴링 플러그인 v1.0.6
+ * 그누보드 스케쥴링 플러그인 v1.0.7
  * Date : 2021-10-28
  * Author : dinist (https://github.com/devdinist)
  */
@@ -42,7 +42,7 @@ include_once(G5_ADMIN_PATH.'/admin.head.php');
 
 ?>
 <style>
-    input[name='loop_number']{width: 35px;}
+    input[name$='_number']{width: 35px;}
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -94,6 +94,21 @@ include_once(G5_ADMIN_PATH.'/admin.head.php');
                 <option value="1"<?php echo get_selected($schedule['loop_type'], "1"); ?>>시간</option>
                 <option value="2"<?php echo get_selected($schedule['loop_type'], "2"); ?>>일</option>
                 <option value="3"<?php echo get_selected($schedule['loop_type'], "3"); ?>>월</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><label for="schedule_file">로그 삭제 주기<?php echo $sound_only ?></label></th>
+        <td>
+            <?php echo help("현재시간을 기준으로 아래 지정한 기간이 지난 로그를 삭제합니다.
+            값을 0으로 지정하는 경우 로그를 삭제하지 않습니다.
+            로그를 삭제하지 않고 지속적으로 저장하면 DB용량 증가의 원인이 됩니다."); ?>
+            <input type="number" name="log_del_number" value="<?php echo strlen($schedule['log_del_number']) > 0 ? $schedule['log_del_number'] : "0"; ?>" id="log_del_number" <?php echo $required_schedule_name; ?> class="frm_input <?php echo $required_schedule_name_class; ?>" size="5"  maxlength="20">
+            <select name="log_del_type" id="log_del_type">
+                <option value="0"<?php echo get_selected($schedule['log_del_type'], "0"); ?>>분</option>
+                <option value="1"<?php echo get_selected($schedule['log_del_type'], "1"); ?>>시간</option>
+                <option value="2"<?php echo get_selected($schedule['log_del_type'], "2"); ?>>일</option>
+                <option value="3"<?php echo get_selected($schedule['log_del_type'], "3"); ?>>월</option>
             </select>
         </td>
     </tr>

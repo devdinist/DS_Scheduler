@@ -31,6 +31,8 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
                 "loop_type" => $r['loop_type'],
                 "loop_number" => $r['loop_number'],
                 "allow_robot" => $r['allow_robot'],
+                "log_del_type" => $r['log_del_type'],
+                "log_del_number" => $r['log_del_number'],
                 "is_php" => $php_preg_result
             );
         endwhile;
@@ -63,6 +65,27 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
                     case "3":
                         $time_set *= (60 * 60 * 24 * 30);
                         break;
+                }
+
+                if($info['log_del_number']){
+                    $log_del_time_set = "";
+                    switch($info['log_del_type']){
+                        case "0":
+                            $log_del_time_set = "MINUTE";
+                            break;
+                        case "1":
+                            $log_del_time_set = "HOUR";
+                            break;
+                        case "2":
+                            $log_del_time_set = "DAY";
+                            break;
+                        case "3":
+                            $log_del_time_set = "MONTH";
+                            break;
+                    }
+
+                    $log_del_sql = " delete from g5_auto_schedule_log where schedule_idx = '{$idx}' and date_add(log_time, interval {$info['log_del_number']} {$log_del_time_set}) <= NOW() ";
+                    sql_query($log_del_sql);
                 }
 
                 if(!$info['allow_robot']){

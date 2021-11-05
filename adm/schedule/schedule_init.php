@@ -22,6 +22,8 @@
             `execute_time` int(10) unsigned NOT NULL DEFAULT 0 COMMENT '실행횟수 (성공,실패 포함)',
             `last_running_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '마지막 실행시간',
             `allow_robot` smallint(5) unsigned NOT NULL DEFAULT 0 COMMENT '0 : 비허용 1 : 허용',
+            `log_del_type` smallint(5) unsigned NOT NULL DEFAULT 0 COMMENT '0 : 분 1 : 시간 2 : 일 3 : 월',
+            `log_del_number` smallint(5) unsigned NOT NULL DEFAULT 0 COMMENT '분,시,일,월에 입력 될 1 ~ 59 사이의 숫자 0 입력시 동작 안함',
             PRIMARY KEY (`idx`)
         ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;",true);
     }
