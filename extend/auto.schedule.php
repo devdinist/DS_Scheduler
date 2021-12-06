@@ -1,7 +1,7 @@
 <?php
 
     /**
-     * 그누보드 스케쥴링 플러그인 v1.0.7
+     * 그누보드 스케쥴링 플러그인 v1.0.8
      * Date : 2021-10-28
      * Author : dinist (https://github.com/devdinist)
      */
@@ -26,7 +26,7 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
             $schedule_file[$r['idx']] = array(
                 "file" => $r['schedule_file'],
-                "exec_time" => $r['execute_time'],
+                "is_first" => $r['is_first'],
                 "last_run_time" => $r['last_running_time'],
                 "loop_type" => $r['loop_type'],
                 "loop_number" => $r['loop_number'],
@@ -96,7 +96,7 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
                     if($crawler_detect->isCrawler()) continue;
                 }
 
-                if($b-$a > $info['loop_number'] * $time_set || $info['exec_time'] == 0){
+                if($b-$a > $info['loop_number'] * $time_set || $info['is_first'] == 0){
                     if(file_exists(G5_PATH.$info['file']) && $info['is_php']){
                         include_once(G5_PATH.$info['file']);
                         $log_sql_value['log'] = "'성공'";
@@ -110,12 +110,13 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
                         $log_sql_value['log'] = "'실패 (이 파일은 php 파일이 아닙니다.)'";
                         $log_sql_value['last_running_time'] = "'".G5_TIME_YMDHIS."'";
                     }
-                    $execute_time = $info['exec_time']+1;
+                    $is_first = 1;
 
                 
                     sql_fetch($log_sql.implode(",",$log_sql_value).")");
-                    sql_fetch(" update g5_auto_schedule set execute_time = {$execute_time}, last_running_time = {$log_sql_value['last_running_time']} where idx = {$idx} ");
+                    sql_fetch(" update g5_auto_schedule set is_first = {$is_first}, last_running_time = {$log_sql_value['last_running_time']} where idx = {$idx} ");
                 }
+                
             }
             unset($file);
         }

@@ -19,7 +19,7 @@
             `loop_type` smallint(5) unsigned NOT NULL DEFAULT 0 COMMENT '0 : 분 1 : 시간 2 : 일 3 : 월',
             `loop_number` smallint(5) unsigned NOT NULL DEFAULT 0 COMMENT '분,시,일,월에 입력 될 0 ~ 59 사이의 숫자 ',
             `status` smallint(5) unsigned NOT NULL DEFAULT 0 COMMENT '0 : 비활성화 1 : 활성화',
-            `execute_time` int(10) unsigned NOT NULL DEFAULT 0 COMMENT '실행횟수 (성공,실패 포함)',
+            `is_first` smallint(5) unsigned NOT NULL DEFAULT 0 COMMENT '1번 이상 실행 여부',
             `last_running_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '마지막 실행시간',
             `allow_robot` smallint(5) unsigned NOT NULL DEFAULT 0 COMMENT '0 : 비허용 1 : 허용',
             `log_del_type` smallint(5) unsigned NOT NULL DEFAULT 0 COMMENT '0 : 분 1 : 시간 2 : 일 3 : 월',

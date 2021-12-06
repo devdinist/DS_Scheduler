@@ -29,7 +29,7 @@ $sql_common = "  schedule_name = '{$schedule_name}',
                  log_del_number = '{$log_del_number}'
                   ";
 
-$sql_insert_common = " '{$schedule_name}', '{$schedule_file}', '{$loop_type}', '{$loop_number}', '{$status}', '{$allow_robot}' '{$log_del_type}', '{$log_del_number}' ";
+$sql_insert_common = " '{$schedule_name}', '{$schedule_file}', '{$loop_type}', '{$loop_number}', '{$status}', '{$allow_robot}', '{$log_del_type}', '{$log_del_number}' ";
 
 if (strlen($schedule_name) == 0)
     alert('스케쥴명이 입력되지 않았거나 잘못된 값이 입력되었습니다.');

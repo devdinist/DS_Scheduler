@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 그누보드 스케쥴링 플러그인 v1.0.7
+ * 그누보드 스케쥴링 플러그인 v1.0.8
  * Date : 2021-10-28
  * Author : dinist (https://github.com/devdinist)
  */
@@ -104,7 +104,6 @@ $colspan=9;
             <th scope="col" id="schedule_status">실행여부</th>
             <th scope="col" id="schedule_allow_robot">봇 방문시 실행여부</th>
             <th scope="col" id="schedule_last_running_time">최근 실행 시각</th>
-            <th scope="col" id="schedule_execute_time">총 실행 수</th>
             <th scope="col" rowspan="2" id="mb_list_mng">관리</th>
         </tr>
         </thead>
@@ -136,7 +135,6 @@ $colspan=9;
             $status = intval($row['status']) ? "활성화" : "비활성화";
             $allow_robot = intval($row['allow_robot']) ? "활성화" : "비활성화";
             $last_running_time = get_text($row['last_running_time']);
-            $execute_time = intval($row['execute_time']);
         ?>
 
         <tr class="<?php echo $bg; ?>">
@@ -161,9 +159,6 @@ $colspan=9;
             </td>
             <td headers="last_running_time">
                 <span><?php echo $last_running_time; ?></span>
-            </td>
-            <td headers="execute_time">
-                <span><?php echo $execute_time; ?></span>
             </td>
             <td headers="schedule_status">
                 <span><?php echo $s_mod; ?></span>
