@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 그누보드 스케쥴링 플러그인 v1.0.8
+ * 그누보드 스케쥴링 플러그인 v1.0.9
  * Date : 2021-10-28
  * Author : dinist (https://github.com/devdinist)
  */
@@ -98,6 +98,53 @@ include_once(G5_ADMIN_PATH.'/admin.head.php');
         </td>
     </tr>
     <tr>
+        <th scope="row"><label for="schedule_file">실행 가능 시간대 설정<?php echo $sound_only ?></label></th>
+        <td>
+            <select name="exec_available_time_start_number" id="exec_available_time_start_number" data-alias="eats_num" style="width: 40px;">
+                <?php for($eatsn = 0; $eatsn <= 23; $eatsn++): 
+                        $default_eats = 0;
+                        if(strlen($schedule['exec_available_time_start']) > 0) $default_eats = intval($schedule['exec_available_time_start']);
+                ?>
+                        <option value="<?php echo $eatsn;?>" <?php echo get_selected($eatsn, $default_eats); ?>><?php echo sprintf("%02d",$eatsn);?></option>
+                <?php endfor; ?>
+            </select>
+            <span>시 ~ </span>
+
+            <select name="exec_available_time_end_number" id="exec_available_time_end_number" data-alias="eate_num" style="width: 40px;">
+                <?php for($eaten = 0; $eaten <= 23; $eaten++): 
+                        $default_eate = 23;
+                        if(strlen($schedule['exec_available_time_end']) > 0) $default_eate = intval($schedule['exec_available_time_end']);
+                ?>
+                        <option value="<?php echo $eaten;?>" <?php echo get_selected($eaten, $default_eate); ?>><?php echo sprintf("%02d",$eaten);?></option>
+                <?php endfor; ?>
+            </select>
+            <span>시</span>
+
+            <?php echo help('<span id="eats_num">00</span>:00 ~ <span id="eate_num">23</span>:59분 까지'); ?>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><label for="schedule_file">실행 가능 요일 설정<?php echo $sound_only ?></label></th>
+        <td>
+                    <div>
+                    <button type="button" class="checkbox_checker" id="all" style="border: 1px solid black; background:black; color:white; padding: 2px 5px; font-weight:bold;">매일</button>
+                    <button type="button" class="checkbox_checker" id="weekend" style="border: 1px solid black; background:black; color:white; padding: 2px 5px; font-weight:bold;">주말</button>
+                    <button type="button" class="checkbox_checker" id="weekday" style="border: 1px solid black; background:black; color:white; padding: 2px 5px; font-weight:bold;">평일</button>
+                    </div>
+            <?php
+                    $exec_day = strlen($schedule['exec_day']) > 0 ? explode("|",$schedule['exec_day']) : array();
+                    $format = new IntlDateFormatter('ko_KR',IntlDateFormatter::FULL,IntlDateFormatter::NONE,'Asia/Seoul',IntlDateFormatter::GREGORIAN,'E');
+                    for($i = 1; $i <= 7; $i++):
+                        $date_stamp = $format->format(strtotime("+{$i} day", strtotime('2021-08-01'))); ?>
+                        <input type="checkbox" name="exec_day[]" id="exec_day[<?php echo ($i-1); ?>]" value="<?php echo ($i-1); ?>" <?php echo in_array(($i-1),$exec_day) ? "checked" : ""; ?>>
+                        <label for="exec_day[<?php echo ($i-1); ?>]"><?php echo $date_stamp."요일";?></label>
+            <?php   
+                    endfor; ?>
+            <?php   echo help("활성화 된 요일에만 스케쥴 작업이 진행됩니다.");
+            ?>
+        </td>
+    </tr>
+    <tr>
         <th scope="row"><label for="schedule_file">로그 삭제 주기<?php echo $sound_only ?></label></th>
         <td>
             <?php echo help("현재시간을 기준으로 아래 지정한 기간이 지난 로그를 삭제합니다.
@@ -147,6 +194,10 @@ include_once(G5_ADMIN_PATH.'/admin.head.php');
 
 <script>
 
+function sizetwo_zero_filler(number){
+    return number.length < 2 ? new Array(number.length+1).join('0') + number : number;
+}
+
 var loop_number = $("input[name='loop_number']");
 
 function value_range_checker(type){
@@ -172,6 +223,37 @@ function value_range_checker(type){
 
 $("select[name='loop_type']").on("change",function(){
     value_range_checker($(this));
+})
+
+$(function(){
+    $("select[name^='exec_available_time']").each(function(i,e){
+        var span_id = $(this).attr("data-alias");
+        $("span#"+span_id).text(sizetwo_zero_filler($(this).val()))
+    })
+})
+
+$("select[name^='exec_available_time'").on("change",function(){
+    var span_id = $(this).attr("data-alias");
+    $("span#"+span_id).text(sizetwo_zero_filler($(this).val()))
+})
+
+$("button.checkbox_checker").on("click",function(){
+    var eleid = $(this).attr("id");
+    var day_obj = {
+        "all" : [0,1,2,3,4,5,6],
+        "weekend" : [5,6],
+        "weekday" : [0,1,2,3,4]
+    };
+
+    $("input[name='exec_day[]']").prop("checked",false)
+
+    for(const value of day_obj[eleid]){
+        $("input[name='exec_day[]']").each(function(i,e){
+            if($(this).val() == value){
+                $(this).prop("checked",true)
+            }
+        })
+    }
 })
 
 value_range_checker($("select[name='loop_type']"))

@@ -24,6 +24,9 @@
             `allow_robot` smallint(5) unsigned NOT NULL DEFAULT 0 COMMENT '0 : 비허용 1 : 허용',
             `log_del_type` smallint(5) unsigned NOT NULL DEFAULT 0 COMMENT '0 : 분 1 : 시간 2 : 일 3 : 월',
             `log_del_number` smallint(5) unsigned NOT NULL DEFAULT 0 COMMENT '분,시,일,월에 입력 될 1 ~ 59 사이의 숫자 0 입력시 동작 안함',
+            `exec_available_time_start` smallint(5) unsigned NOT NULL DEFAULT 0 COMMENT '실행 가능 시간 start',
+            `exec_available_time_end` smallint(5) unsigned NOT NULL DEFAULT 23 COMMENT '실행 가능 시간 end',
+            `exec_day` varchar(100) NOT NULL DEFAULT '0|1|2|3|4|5|6' COMMENT '실행 가능 요일 설정 파이프라인 기준으로 구분',
             PRIMARY KEY (`idx`)
         ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;",true);
     }

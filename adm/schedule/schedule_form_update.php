@@ -16,6 +16,10 @@ $status = isset($_POST['status']) && is_numeric($_POST['status']) ? intval($_POS
 $allow_robot = isset($_POST['allow_robot']) && is_numeric($_POST['allow_robot']) ? intval($_POST['allow_robot']) : '';
 $log_del_type = isset($_POST['log_del_type']) && is_numeric($_POST['log_del_type']) ? intval($_POST['log_del_type']) : '';
 $log_del_number = isset($_POST['log_del_number']) && is_numeric($_POST['log_del_number']) ? intval($_POST['log_del_number']) : '';
+$exec_available_time_start = isset($_POST['exec_available_time_start_number']) ? intval($_POST['exec_available_time_start_number']) : '';
+$exec_available_time_end = isset($_POST['exec_available_time_end_number']) ? intval($_POST['exec_available_time_end_number']) : '';
+$exec_day = isset($_POST['exec_day']) && is_array($_POST['exec_day']) ? array_map(function($v){return intval($v);},$_POST['exec_day']) : array();
+$exec_day = implode("|",$exec_day);
 
 if($w == "u" && strlen($idx) == 0) alert("idx 값이 없습니다.");
 
@@ -26,10 +30,13 @@ $sql_common = "  schedule_name = '{$schedule_name}',
                  status = '{$status}',
                  allow_robot = '{$allow_robot}',
                  log_del_type = '{$log_del_type}',
-                 log_del_number = '{$log_del_number}'
+                 log_del_number = '{$log_del_number}',
+                 exec_available_time_start = '{$exec_available_time_start}',
+                 exec_available_time_end = '{$exec_available_time_end}',
+                 exec_day = '{$exec_day}'
                   ";
 
-$sql_insert_common = " '{$schedule_name}', '{$schedule_file}', '{$loop_type}', '{$loop_number}', '{$status}', '{$allow_robot}', '{$log_del_type}', '{$log_del_number}' ";
+$sql_insert_common = " '{$schedule_name}', '{$schedule_file}', '{$loop_type}', '{$loop_number}', '{$status}', '{$allow_robot}', '{$log_del_type}', '{$log_del_number}', '{$exec_available_time_start}', '{$exec_available_time_end}', '{$exec_day}' ";
 
 if (strlen($schedule_name) == 0)
     alert('스케쥴명이 입력되지 않았거나 잘못된 값이 입력되었습니다.');
@@ -40,6 +47,10 @@ if (strlen($schedule_file) == 0)
 if(!in_array($loop_type,array(0,1,2,3)))
     alert('실행주기 값 설정이 잘못되었습니다.');
 
+if($exec_available_time_start < 0 || $exec_available_time_start > 23) alert('실행 가능 시간 시작 값이 잘못되었습니다.');
+
+if($exec_available_time_end < 0 || $exec_available_time_end > 23) alert('실행 가능 시간 종료 값이 잘못되었습니다.');
+    
 switch($loop_type){
     case "0":
         if($loop_number <= 0 || $loop_number > 59) alert("실행주기 값 범위를 벗어났습니다.");
@@ -112,7 +123,7 @@ elseif($w == "d"):
 
 else:
 
-    $sql = " insert into g5_auto_schedule (schedule_name, schedule_file, loop_type, loop_number, status, allow_robot, log_del_type, log_del_number ) values ({$sql_insert_common}) ";
+    $sql = " insert into g5_auto_schedule (schedule_name, schedule_file, loop_type, loop_number, status, allow_robot, log_del_type, log_del_number, exec_available_time_start, exec_available_time_end, exec_day ) values ({$sql_insert_common}) ";
     sql_query($sql);
 
     $idx = sql_insert_id();

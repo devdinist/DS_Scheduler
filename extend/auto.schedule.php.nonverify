@@ -1,7 +1,7 @@
 <?php
 
     /**
-     * 그누보드 스케쥴링 플러그인 v1.0.8
+     * 그누보드 스케쥴링 플러그인 v1.0.9
      * Date : 2021-10-28
      * Author : dinist (https://github.com/devdinist)
      */
@@ -30,6 +30,9 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
                 "allow_robot" => $r['allow_robot'],
                 "log_del_type" => $r['log_del_type'],
                 "log_del_number" => $r['log_del_number'],
+                "exec_available_time_start" => $r['exec_available_time_start'],
+                "exec_available_time_end" => $r['exec_available_time_end'],
+                "exec_day" => $r['exec_day'],
             );
         endwhile;
 
@@ -46,6 +49,33 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
                 $a = strtotime($info['last_run_time']);
                 $b = time();
+
+                $current_hour = intval(date('H',$b));
+                $eats = intval($info['exec_available_time_start']);
+                $eate = intval($info['exec_available_time_end']);
+
+                $is_available_time = false;
+
+                if($eats > $eate){
+                    $eats = ($current_hour < $eats && $eate >= $current_hour) ? $eate - 23 : $eats; 
+                    $is_available_time = ($eats <= $current_hour && $eate+23 >= $current_hour) ? true : false;
+                }else if($eats < $eate){
+                    $is_available_time = ($eats <= $current_hour && $eate >= $current_hour) ? true : false;
+                }else{
+                    $is_available_time = $eats == $current_hour ? true : false;
+                }
+
+                $time = explode("|",$info['exec_day']);
+
+                $today_day_str = date('D',$b); 
+                $day_arr = array();
+                foreach($time as $v):
+                    $v = intval($v)+1;
+                    $date = date('D',strtotime("+{$v} day", strtotime('2021-08-01')));
+                    array_push($day_arr,$date);
+                endforeach;
+
+                $is_available_time = in_array($today_day_str,$day_arr) ? $is_available_time : false;
 
                 $time_set = 1;
                 switch($info['loop_type']){
@@ -92,7 +122,7 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
                     if($crawler_detect->isCrawler()) continue;
                 }
 
-                if($b-$a > $info['loop_number'] * $time_set || $info['is_first'] == 0){
+                if(($b-$a > $info['loop_number'] * $time_set && $is_available_time) || ($info['is_first'] == 0 && $is_available_time)){
                     if(file_exists(G5_PATH.$info['file'])){
                         include_once(G5_PATH.$info['file']);
                         $log_sql_value['log'] = "'성공'";
